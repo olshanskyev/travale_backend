@@ -1,0 +1,84 @@
+server:
+  port: 8199
+  servlet:
+    contextPath: /travale/api/v1
+  ssl:
+      key-store-type: PKCS12
+      key-store: ${KEY_STORE_LOCATION}
+      key-store-password: ${KEY_STORE_PWD}
+      key-alias: travale
+      enabled: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  accessTokenValidity: 3600 # 1 hour
+  refreshTokenValidity: 86400 # 24 hours
+  passwordResetTokenValidity: 259200 # 3 days
+
+spring:
+  main:
+    allow-circular-references: true
+---
+spring:
+  config:
+    activate:
+      on-profile: default
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+datasource:
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?currentSchema=${DATABASE_SCHEMA}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
+    driverClassName: org.postgresql.Driver
+    defaultSchema:
+    maxPoolSize: 20
+    hibernate:
+       #hbm2ddl.method: update
+       hbm2ddl.method: none
+       show_sql: true
+       format_sql: true
+       dialect: org.hibernate.dialect.PostgreSQLDialect
+gui-urls:
+  passwordResetLink:
+    ${GUI_URL}/auth/reset-password
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: travaleapp@gmail.com
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+datasource:
+    url: jdbc:postgresql://localhost:5432/TRAVALE?currentSchema="TRAVALE"
+    username: travale_dbuser
+    password: travale_dbuser_pwd
+    driverClassName: org.postgresql.Driver
+    defaultSchema:
+    maxPoolSize: 20
+    hibernate:
+       #hbm2ddl.method: update
+       hbm2ddl.method: none
+       show_sql: true
+       format_sql: true
+       dialect: org.hibernate.dialect.PostgreSQLDialect
+gui-urls:
+  passwordResetLink:
+    https://localhost:4200/auth/reset-password

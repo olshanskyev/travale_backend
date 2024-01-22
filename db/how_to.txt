@@ -1,0 +1,8 @@
+./psql -U postgres
+CREATE USER travale_dbuser WITH PASSWORD 'travale_dbuser_pwd' CREATEDB;
+CREATE DATABASE "TRAVALE" OWNER travale_dbuser;
+
+./psql -U travale_dbuser "TRAVALE"
+CREATE SCHEMA IF NOT EXISTS "TRAVALE";
+
+GRANT USAGE ON SCHEMA "TRAVALE" TO travale_dbuser;

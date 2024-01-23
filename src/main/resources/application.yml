@@ -18,14 +18,9 @@ jwt:
 spring:
   main:
     allow-circular-references: true
----
-spring:
-  config:
-    activate:
-      on-profile: default
   mail:
-    host: smtp.gmail.com
-    port: 587
+    host: ${SMTP_HOST}
+    port: ${SMTP_PORT}
     username: ${EMAIL_USERNAME}
     password: ${EMAIL_PASSWORD}
     properties:
@@ -34,8 +29,13 @@ spring:
           auth: true
           starttls:
             enable: true
+---
+spring:
+  config:
+    activate:
+      on-profile: default
 datasource:
-    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?currentSchema=${DATABASE_SCHEMA}
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?currentSchema="${DATABASE_SCHEMA}"
     username: ${DATABASE_USER}
     password: ${DATABASE_PASSWORD}
     driverClassName: org.postgresql.Driver
@@ -55,17 +55,6 @@ spring:
   config:
     activate:
       on-profile: local
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: travaleapp@gmail.com
-    password: ${EMAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 datasource:
     url: jdbc:postgresql://localhost:5432/TRAVALE?currentSchema="TRAVALE"
     username: travale_dbuser

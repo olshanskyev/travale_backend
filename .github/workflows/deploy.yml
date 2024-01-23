@@ -34,7 +34,8 @@ jobs:
       uses: garygrossgarten/github-action-ssh@release
       with:
         command: |
-          ${{ env.REMOTE_FOLDER }}/restart.sh
+          cd ${{ env.REMOTE_FOLDER }}
+          ./restart.sh
         host: ${{ secrets.AWS_PUBLIC_IP }}
         username: ${{ secrets.AWS_SSH_USER }}
         password: ${{ secrets.AWS_SSH_PWD }}

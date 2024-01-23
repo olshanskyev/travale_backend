@@ -40,7 +40,7 @@ datasource:
     password: ${DATABASE_PASSWORD}
     driverClassName: org.postgresql.Driver
     defaultSchema:
-    maxPoolSize: 20
+    maxPoolSize: 10
     hibernate:
        #hbm2ddl.method: update
        hbm2ddl.method: none
@@ -61,7 +61,7 @@ datasource:
     password: travale_dbuser_pwd
     driverClassName: org.postgresql.Driver
     defaultSchema:
-    maxPoolSize: 20
+    maxPoolSize: 10
     hibernate:
        #hbm2ddl.method: update
        hbm2ddl.method: none

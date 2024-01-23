@@ -1,0 +1,32 @@
+name: Java CI/CD with Maven
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    env:
+      JAR_NAME: travale-backend.jar
+      DIST_FOLDER: ${{ vars.GITHUB_WORKSPACE }}target
+      REMOTE_FOLDER: /home/ec2-user/${{ github.event.repository.name }}
+    environment: prod
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'corretto'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+    - name: List artifacts to deploy
+      run: ls -laF $DIST_FOLDER/$JAR_NAME
+    - name: Copy dist to AWS
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: ${{ env.DIST_FOLDER }}/${{ env.JAR_NAME }}
+        remote: ${{ env.REMOTE_FOLDER }}/${{ env.JAR_NAME }}
+        host: ${{ secrets.AWS_PUBLIC_IP }}
+        username: ${{ secrets.AWS_SSH_USER }}
+        password: ${{ secrets.AWS_SSH_PWD }}
